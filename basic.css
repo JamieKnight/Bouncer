@@ -1,0 +1,57 @@
+/*---------------------------------
+
+version: 0.1
+author: Jamie Knight
+contact: jamie@jkg3.com
+
+Please feel free to learn from this code. Do not copy this code in whole, if you wish for a copy of this code, or any explanation plese contact me at the above adress. 
+----------------------------------*/
+
+/* =General
+-----------------------------------------------------------------------------*/
+
+/* Remove padding and margin */
+* { margin:0; padding:0; }
+
+/* Put it back on certain elements */
+h1,h2,h3,h4,h5,h6,p,pre,blockquote,form,fieldset,table,ul { margin:1em 0; }
+
+/* Class for clearing floats */
+.clear { clear:both; }
+
+/* Remove border around linked images */
+img { border:0; }
+a { outline:none; }
+
+/* Basics
+-----------------------------------------------*/
+html { background:url(3.png) repeat 0 0; width: 1024px;}
+body { width:863px; margin:45px auto; font-family:Helvetica; font-size:14px; }
+a { color:#666; text-decoration:none;  }
+#mainContent { float:left; }
+#subContent { float:right; height:583px; background:url(pinboard_bg.png) top left no-repeat; }
+#mainContent,#subContent { width:410px;  margin:0; }
+#subContent,#mainContent ul.links  li, #weather { -webkit-box-shadow:0 0 10px rgba(0,0,0,0.8); -webkit-border-radius: 3px; }
+#mainContent ul.links  { margin:0; padding:0; }
+#mainContent ul.links  li { display:block; background:#EFEEEC; width:120px; height:150px; text-align:center; color:#fff; margin:0; float:left; list-style:none; list-style-position:inside;margin-bottom: 20px; }
+#mainContent ul.links li a { position:relative; display:block; width:100%; padding-top:125px; color:#fff; }
+#mainContent ul.links li.fireball { background:url(fireball.png) center top no-repeat; }
+#mainContent ul.links li.bbc { background:url(bbc.png) center top no-repeat; margin:0 25px; }
+#mainContent ul.links li.engadget { background:url(engadget.png) center top no-repeat; }
+
+#mainContent #weather { height: 411px; width: 100%; background:#EFEEEC url(sunny.png) no-repeat 340px -45px; clear: both; }
+#weather ul,  #subContent ul { list-style-type: none; list-style-position: inside; padding: 10px; margin-left: 5px; }
+h2 { font-size: 25px; }
+#weather ul a,  #subContent ul a { display: block; width: 100%; height: 100%; }
+#weather h2 { color: #666; padding: 15px 0 3px 0; margin-left: 15px; border-bottom:  4px solid #666; width: 320px }
+#subContent h2 { color: #fff; padding: 0px 0 3px 0; margin-left: 15px; border-bottom:  4px solid #fff; width: 380px }
+#weather ul li, #subContent ul li {
+
+	padding: 5px;
+	background: rgba(255, 255, 255, 0.6);
+	border: 2px dotted rgba(0,0,0, 0.2);
+	margin-bottom: 15px;
+
+}
+
+li:hover { opacity: 0.8; }
