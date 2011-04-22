@@ -1,59 +1,50 @@
 <?php
-
+//a handy curl function to return xml from pinboard API
 function get_links($url, $username, $password){
-
+	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
-	//curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-	//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	// add delicious.com username and password below
 	curl_setopt($ch, CURLOPT_USERPWD, $username.':'.$password);
 	$data = curl_exec($ch);
 	curl_close($ch);
 	return($data);
+	
 }
 
+//Retrns links from the pinboard API for the user specific
+function getPinboardLinks($username, $password){
 
-
-if($xmlstr = get_links("https://api.pinboard.in/v1/posts/recent?count=5", "<your username>", "<your password>")){
-
-	$xml = simplexml_load_string($xmlstr);
-	
 	$pinboard = '';
-	
-	
-	foreach($xml->post as $post){
-		$pinboard .=  "<li>";
-		$pinboard .=  '<a href="'.$post->attributes()->href.'" target="_blank" on>'.$post->attributes()->description.'</a>';
-		$pinboard .= "</li>";
+	if($xmlstr = get_links("https://api.pinboard.in/v1/posts/recent?count=5", $username, $password)){
+		$xml = simplexml_load_string($xmlstr);
+		
+		foreach($xml->post as $post){
+			$pinboard .=  "<li>";
+			$pinboard .=  '<a href="'.$post->attributes()->href.'" target="_blank" on>'.$post->attributes()->description.'</a>';
+			$pinboard .= "</li>";
+		}
+	}else{
+		$pinboard = '<li>No links :( </li>';
 	}
-
-
-}else{
-
-	$pinboard = '<li>No links :( </li>';
-
+	return $pinboard;
 }
 
-//bbc weather
-
+//Returns the weathe for a given location. To find the BBC location for you weather, search for you location at http://news.bbc.co.uk/weather/ and then take the number from the url.
+function getWeatherLinks($bbc_location_id){
 	$bbc = '';
-	$xmlstr = file_get_contents('http://newsrss.bbc.co.uk/weather/forecast/4189/Next3DaysRSS.xml');
+	$xmlstr = file_get_contents('http://newsrss.bbc.co.uk/weather/forecast/'.$bbc_location_id.'/Next3DaysRSS.xml');
 	$xml = simplexml_load_string($xmlstr);	
 	foreach($xml->channel->item as $day){
 		$bbc .=  "<li>";
 		$bbc .=  '<a href="'.$day->{'link'}.'">'.$day->title.'</a>';
 		$bbc .= "</li>";
 	}
-	
-	
-
-
-
+	return $bbc;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,68 +61,41 @@ if($xmlstr = get_links("https://api.pinboard.in/v1/posts/recent?count=5", "<your
 	</script>
 </head>
 <body>
-<div id="mainContent">
-	<ul class="links">
-		<li class="fireball">
-			<a href="http://daringfireball.net" >
-				Daring Fireball
-			</a>
-		</li>
-		
-		<li class="bbc">
-			<a href="http://news.bbc.co.uk">
-				BBC News
-			</a>
-		</li>
-		
-		<li class="engadget">
-			<a href="http://engadget.com">
-				engagdet
-			</a>
-		</li>
-	</ul>
-	
-	<div id="weather">
-		<h2>Taunton Whether</h2>
-		<ul>
-			<? echo $bbc; ?>
-			<!--
-<li>
-				<a href="link-url">Saturday: white cloud, Max Temp: 7°C (45°F), Min Temp: 3°C (37°F)</a>
+	<div id="mainContent">
+		<ul class="links">
+			<li class="fireball">
+				<a href="http://daringfireball.net" >
+					Daring Fireball
+				</a>
 			</li>
 			
-			<li>
-				<a href="link-url">Sunday: white cloud, Max Temp: 7°C (45°F), Min Temp: 3°C (37°F)</a>
+			<li class="bbc">
+				<a href="http://news.bbc.co.uk">
+					BBC News
+				</a>
 			</li>
 			
-			<li>
-				<a href="link-url">Monday: white cloud, Max Temp: 7°C (45°F), Min Temp: 3°C (37°F)</a>
+			<li class="engadget">
+				<a href="http://engadget.com">
+					engagdet
+				</a>
 			</li>
--->
 		</ul>
-	
+		
+		<div id="weather">
+			<h2>Taunton Whether</h2>
+			<ul>
+				<? echo getWeatherLinks(4189); ?>
+			</ul>
+		</div>
 	</div>
-</div>
-
-<div id="subContent">
-	<h2>Recently added to pinboard</h2>
-	<ul>
-		<? echo $pinboard ?>
-		<!--
-<li>
-			<a href="link-url">Saturday: white cloud, Max Temp: 7°C (45°F), Min Temp: 3°C (37°F)</a>
-		</li>
-		
-		<li>
-			<a href="link-url">Sunday: white cloud, Max Temp: 7°C (45°F), Min Temp: 3°C (37°F)</a>
-		</li>
-		
-		<li>
-			<a href="link-url">Monday: white cloud, Max Temp: 7°C (45°F), Min Temp: 3°C (37°F)</a>
-		</li>
--->
-	</ul>
-</div>
+	
+	<div id="subContent">
+		<h2>Recently added to pinboard.in</h2>
+		<ul>
+			<? echo getPinboardLinks("your_user_name", "your_password"); ?>
+		</ul>
+	</div>
 
 
 </body>
