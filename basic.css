@@ -25,7 +25,7 @@ a { outline:none; }
 
 /* Basics
 -----------------------------------------------*/
-html { background:url(3.png) repeat 0 0; width: 1024px;}
+html { background:url(background.png) repeat 0 0; width: 1024px;}
 body { width:863px; margin:45px auto; font-family:Helvetica; font-size:14px; }
 a { color:#666; text-decoration:none;  }
 #mainContent { float:left; }
