@@ -17,15 +17,11 @@ function get_links($url, $username, $password){
 
 //Retrns links from the pinboard API for the user specific
 function getPinboardLinks($username, $password){
-
 	$pinboard = '';
 	if($xmlstr = get_links("https://api.pinboard.in/v1/posts/recent?count=5", $username, $password)){
 		$xml = simplexml_load_string($xmlstr);
-		
 		foreach($xml->post as $post){
-			$pinboard .=  "<li>";
-			$pinboard .=  '<a href="'.$post->attributes()->href.'" target="_blank" on>'.$post->attributes()->description.'</a>';
-			$pinboard .= "</li>";
+			$pinboard .=  '<li><a href="'.$post->attributes()->href.'" target="_blank" on>'.$post->attributes()->description.'</a></li>';
 		}
 	}else{
 		$pinboard = '<li>No links :( </li>';
@@ -35,15 +31,13 @@ function getPinboardLinks($username, $password){
 
 //Returns the weathe for a given location. To find the BBC location for you weather, search for you location at http://news.bbc.co.uk/weather/ and then take the number from the url.
 function getWeatherLinks($bbc_location_id){
-	$bbc = '';
+	$weather = '';
 	$xmlstr = file_get_contents('http://newsrss.bbc.co.uk/weather/forecast/'.$bbc_location_id.'/Next3DaysRSS.xml');
 	$xml = simplexml_load_string($xmlstr);	
 	foreach($xml->channel->item as $day){
-		$bbc .=  "<li>";
-		$bbc .=  '<a href="'.$day->{'link'}.'">'.$day->title.'</a>';
-		$bbc .= "</li>";
+		$weather .=  '<li><a href="'.$day->{'link'}.'">'.$day->title.'</a></li>';
 	}
-	return $bbc;
+	return $weather;
 }
 ?>
 <!DOCTYPE html>
@@ -93,7 +87,7 @@ function getWeatherLinks($bbc_location_id){
 	<div id="subContent">
 		<h2>Recently added to pinboard.in</h2>
 		<ul>
-			<? echo getPinboardLinks("your_user_name", "your_password"); ?>
+			<? echo getPinboardLinks("username", "password"); ?>
 		</ul>
 	</div>
 
