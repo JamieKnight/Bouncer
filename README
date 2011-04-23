@@ -1,0 +1,9 @@
+Bouncer - Personal iPad Homepage.
+
+SETUP:
+
+To setup you own dashboard, you need to change two values. 
+
+1: BBC Weather - you need to get your weather id, to find this, search for you locality on bbc weather and then copy the number from the URL.
+
+2: Pinboard - put in your pinboard username and password.
